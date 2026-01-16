@@ -68,18 +68,21 @@ namespace AsaApi
 
 	bool Commands::CheckChatCommands(AShooterPlayerController* shooter_player_controller, FString* message, int mode, int platform)
 	{
-		return CheckCommands<ChatCommand>(*message, chat_commands_, shooter_player_controller, message, mode, platform);
+		const auto tmp_chat_commands = chat_commands_;
+		return CheckCommands<ChatCommand>(*message, tmp_chat_commands, shooter_player_controller, message, mode, platform);
 	}
 
 	bool Commands::CheckConsoleCommands(APlayerController* a_player_controller, FString* cmd, bool write_to_log)
 	{
-		return CheckCommands<ConsoleCommand>(*cmd, console_commands_, a_player_controller, cmd, write_to_log);
+		const auto tmp_console_commands = console_commands_;
+		return CheckCommands<ConsoleCommand>(*cmd, tmp_console_commands, a_player_controller, cmd, write_to_log);
 	}
 
 	bool Commands::CheckRconCommands(RCONClientConnection* rcon_client_connection, RCONPacket* rcon_packet,
 		UWorld* u_world)
 	{
-		return CheckCommands<RconCommand>(rcon_packet->Body, rcon_commands_, rcon_client_connection, rcon_packet,
+		const auto tmp_rcon_commands = rcon_commands_;
+		return CheckCommands<RconCommand>(rcon_packet->Body, tmp_rcon_commands, rcon_client_connection, rcon_packet,
 			u_world);
 	}
 
