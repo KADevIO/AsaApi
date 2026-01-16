@@ -77,8 +77,7 @@ namespace AsaApi
 
 			if (iter != commands.end())
 			{
-				commands.erase(std::remove(commands.begin(), commands.end(), *iter), commands.end());
-
+				commands.erase(iter);
 				return true;
 			}
 
