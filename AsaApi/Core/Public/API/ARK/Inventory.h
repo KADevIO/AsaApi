@@ -515,6 +515,7 @@ struct UPrimalItem : UObject
     BitFieldValue<bool, unsigned __int32> bUseOnItemSetIndexAsDestinationItemCustomData() { return { this, "UPrimalItem.bUseOnItemSetIndexAsDestinationItemCustomData" }; }
     BitFieldValue<bool, unsigned __int32> bSupportDragOntoOtherItem() { return { this, "UPrimalItem.bSupportDragOntoOtherItem" }; }
     BitFieldValue<bool, unsigned __int32> bIsItemSkin() { return { this, "UPrimalItem.bIsItemSkin" }; }
+    BitFieldValue<bool, unsigned __int32> bIsCustomCosmeticDisplayField() { return { this, "UPrimalItem.bIsCustomCosmeticDisplay" }; }
     BitFieldValue<bool, unsigned __int32> bPreventOnSkinTab() { return { this, "UPrimalItem.bPreventOnSkinTab" }; }
     BitFieldValue<bool, unsigned __int32> bDontResetAttachmentIfNotUpdatingItem() { return { this, "UPrimalItem.bDontResetAttachmentIfNotUpdatingItem" }; }
     BitFieldValue<bool, unsigned __int32> bItemSkinIgnoreSkinIcon() { return { this, "UPrimalItem.bItemSkinIgnoreSkinIcon" }; }
@@ -828,6 +829,7 @@ struct UPrimalItem : UObject
     bool CanEquipWeapon() { return NativeCall<bool>(this, "UPrimalItem.CanEquipWeapon()"); }
     bool GetCustomItemData(FName CustomDataName, FCustomItemData* OutData) { return NativeCall<bool, FName, FCustomItemData*>(this, "UPrimalItem.GetCustomItemData(FName,FCustomItemData&)", CustomDataName, OutData); }
     void SetCustomItemData(const FCustomItemData* InData) { NativeCall<void, const FCustomItemData*>(this, "UPrimalItem.SetCustomItemData(FCustomItemData&)", InData); }
+    void RemoveCustomItemData(FName CustomDataName) { NativeCall<void, FName>(this, "UPrimalItem.RemoveCustomItemData(FName)", CustomDataName); }
     int GetEngramRequirementLevel() { return NativeCall<int>(this, "UPrimalItem.GetEngramRequirementLevel()"); }
     void Crafted_Implementation(bool bWasCraftedFromEngram) { NativeCall<void, bool>(this, "UPrimalItem.Crafted_Implementation(bool)", bWasCraftedFromEngram); }
     UMaterialInterface* GetHUDIconMaterial() { return NativeCall<UMaterialInterface*>(this, "UPrimalItem.GetHUDIconMaterial()"); }
@@ -983,6 +985,7 @@ struct UPrimalInventoryComponent : UActorComponent
     int& LastWirelessUpdateFrameField() { return *GetNativePointerField<int*>(this, "UPrimalInventoryComponent.LastWirelessUpdateFrame"); }
     TObjectPtr<UTexture2D>& AccessInventoryIconField() { return *GetNativePointerField<TObjectPtr<UTexture2D>*>(this, "UPrimalInventoryComponent.AccessInventoryIcon"); }
     TArray<TObjectPtr<UTexture2D>, TSizedDefaultAllocator<32> >& TribeInventoryAccessRankSelectionIconsField() { return *GetNativePointerField<TArray<TObjectPtr<UTexture2D>, TSizedDefaultAllocator<32> >*>(this, "UPrimalInventoryComponent.TribeInventoryAccessRankSelectionIcons"); }
+    TArray<UPrimalItem*, TSizedDefaultAllocator<32> >& AllCustomCosmeticItemsField() { return *GetNativePointerField<TArray<UPrimalItem*, TSizedDefaultAllocator<32> >*>(this, "UPrimalInventoryComponent.AllCustomCosmeticItems"); }
 
     // Bitfields
 
@@ -1250,6 +1253,7 @@ struct UPrimalInventoryComponent : UActorComponent
     void BPDropInventoryDeposit(long double DestroyAtTime, int OverrideMaxItemsDropped, bool bOverrideCacheLocation, UE::Math::TVector<double>* CacheLocationOverride, bool bIgnoreEquippedItems, TSubclassOf<APrimalStructureItemContainer> OverrideInventoryDepositClass) { NativeCall<void, long double, int, bool, UE::Math::TVector<double>*, bool, TSubclassOf<APrimalStructureItemContainer>>(this, "UPrimalInventoryComponent.BPDropInventoryDeposit(double,int,bool,UE::Math::TVector<double>,bool,TSubclassOf<APrimalStructureItemContainer>)", DestroyAtTime, OverrideMaxItemsDropped, bOverrideCacheLocation, CacheLocationOverride, bIgnoreEquippedItems, OverrideInventoryDepositClass); };
     float OverrideItemMinimumUseInterval(const UPrimalItem* theItem) { return NativeCall<float, const UPrimalItem*>(this, "UPrimalInventoryComponent.OverrideItemMinimumUseInterval(UPrimalItem*)", theItem); }
     UPrimalItem* AddItemObject(UPrimalItem* anItem) { return NativeCall<UPrimalItem*, UPrimalItem*>(this, "UPrimalInventoryComponent.AddItemObject(UPrimalItem*)", anItem); }
+    UPrimalItem* AddItemObjectEx(UPrimalItem* anItem, bool bEquipItem, bool bAddToSlot, bool bDontStack, bool bShowHUDNotification, bool bDontRecalcSpoilingTime, bool bForceIncompleteStacking, AShooterCharacter* OwnerPlayer, bool bClampStats, UPrimalItem* InsertAfterItem, bool bInsertAtItemInstead) { return NativeCall<UPrimalItem*, UPrimalItem*, bool, bool, bool, bool, bool, bool, AShooterCharacter*, bool, UPrimalItem*, bool>(this, "UPrimalInventoryComponent.AddItemObjectEx(UPrimalItem*,bool,bool,bool,bool,bool,bool,AShooterCharacter*,bool,UPrimalItem*,bool)", anItem, bEquipItem, bAddToSlot, bDontStack, bShowHUDNotification, bDontRecalcSpoilingTime, bForceIncompleteStacking, OwnerPlayer, bClampStats, InsertAfterItem, bInsertAtItemInstead); }
     void OnComponentCreated() { NativeCall<void>(this, "UPrimalInventoryComponent.OnComponentCreated()"); }
     void Serialize(FArchive* Ar) { NativeCall<void, FArchive*>(this, "UPrimalInventoryComponent.Serialize(FArchive*)", Ar); }
     bool IsAtMaxInventoryItems() { return NativeCall<bool>(this, "UPrimalInventoryComponent.IsAtMaxInventoryItems()"); }

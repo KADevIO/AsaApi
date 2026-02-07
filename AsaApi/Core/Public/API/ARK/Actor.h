@@ -1998,6 +1998,11 @@ struct FUniqueNetIdRepl : FUniqueNetIdWrapper
     FUniqueNetIdRepl& UniqueIdField() { return *GetNativePointerField<FUniqueNetIdRepl*>(this, "UNetConnection.PlayerId"); }
 };*/
 
+struct UNetDriver : UObject
+{
+    double& ElapsedTimeField() { return *GetNativePointerField<double*>(this, "UNetDriver.ElapsedTime"); }
+};
+
 struct FNetResult
 {
     unsigned __int64 Result;
@@ -5648,6 +5653,7 @@ struct APrimalCharacter : ACharacter
     bool IsWatered() { return NativeCall<bool>(this, "APrimalCharacter.IsWatered()"); }
     void OnDeserializedByGame(EOnDeserializationType::Type DeserializationType) { NativeCall<void, EOnDeserializationType::Type>(this, "APrimalCharacter.OnDeserializedByGame(EOnDeserializationType::Type)", DeserializationType); }
     int LevelUpPlayerAddedStat(TEnumAsByte<EPrimalCharacterStatusValue::Type> StatToLevel, int NumLevels, AShooterPlayerController* ForPlayer, bool bDontRequirePCForDino) { return NativeCall<int, TEnumAsByte<EPrimalCharacterStatusValue::Type>, int, AShooterPlayerController*, bool>(this, "APrimalCharacter.LevelUpPlayerAddedStat(TEnumAsByte<EPrimalCharacterStatusValue::Type>,int,AShooterPlayerController*,bool)", StatToLevel, NumLevels, ForPlayer, bDontRequirePCForDino); }
+    float GetCurrentStatusValue(EPrimalCharacterStatusValue::Type valueType) { return NativeCall<float, EPrimalCharacterStatusValue::Type>(this, "APrimalCharacter.GetCurrentStatusValue(EPrimalCharacterStatusValue::Type)", valueType); }
     void CheckJumpInput(float DeltaTime) { NativeCall<void, float>(this, "APrimalCharacter.CheckJumpInput(float)", DeltaTime); }
     void ServerTryPoop_Implementation() { NativeCall<void>(this, "APrimalCharacter.ServerTryPoop_Implementation()"); }
     void ClientFailedPoop_Implementation() { NativeCall<void>(this, "APrimalCharacter.ClientFailedPoop_Implementation()"); }
@@ -10507,6 +10513,7 @@ struct ADayCycleManager : AInfo
     float& SkyWeatherSequenceBlend_RainyField() { return *GetNativePointerField<float*>(this, "ADayCycleManager.SkyWeatherSequenceBlend_Rainy"); }
     float& SkyWeatherSequenceBlend_FogField() { return *GetNativePointerField<float*>(this, "ADayCycleManager.SkyWeatherSequenceBlend_Fog"); }
     bool& bLastReplicatedIsRainingField() { return *GetNativePointerField<bool*>(this, "ADayCycleManager.bLastReplicatedIsRaining"); }
+    bool& bIsRainingField() { return *GetNativePointerField<bool*>(this, "ADayCycleManager.bIsRaining"); }
     USoundBase*& Sound_TransitionToMorningField() { return *GetNativePointerField<USoundBase**>(this, "ADayCycleManager.Sound_TransitionToMorning"); }
     USoundBase*& Sound_TransitionToMidDayField() { return *GetNativePointerField<USoundBase**>(this, "ADayCycleManager.Sound_TransitionToMidDay"); }
     USoundBase*& Sound_TransitionToNightField() { return *GetNativePointerField<USoundBase**>(this, "ADayCycleManager.Sound_TransitionToNight"); }
